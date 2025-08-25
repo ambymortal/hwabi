@@ -33,16 +33,16 @@ func handleConnection(conn net.Conn) {
 	addr := conn.RemoteAddr().String()
 	log.Printf("new client connected from: %s", addr)
 
-	handshake := []byte{
-		0x5F, 0x00, 0x01, 0x08, // 95 1
-		0x11, 0x22, 0x33, 0x44, // send, recv
-		0xAA, 0xBB, 0xCC, 0xDD, // locale
+	pkt, err := onHandshake()
+	if err != nil {
+		log.Printf("failed to build handshake: %v", err)
+		return
 	}
 
 	// send handshake to client
-	_, err := conn.Write(handshake)
-	if err != nil {
-		log.Printf("handshake error %s: %v", addr, err)
+	_, err2 := conn.Write(pkt)
+	if err2 != nil {
+		log.Printf("handshake error %s: %v", addr, err2)
 		return
 	}
 	log.Printf("sent handshake to %s", addr)
@@ -57,4 +57,16 @@ func handleConnection(conn net.Conn) {
 	}
 
 	log.Printf("received %d bytes from %s: %s", n, addr, hex.EncodeToString(buffer[:n]))
+}
+
+func onHandshake() ([]byte, error) {
+	pkt := NewPacket()
+
+	pkt.WriteShort(95)       // version
+	pkt.WriteString("1")     // patch
+	pkt.WriteInt(0x11223344) // Recv
+	pkt.WriteInt(0xAABBCCDD) // Send
+	pkt.WriteByte(8)         // locale
+
+	return pkt.ToBytes()
 }
