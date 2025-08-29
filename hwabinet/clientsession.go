@@ -1,4 +1,4 @@
-package main
+package hwabinet
 
 import (
 	"crypto/rand"
@@ -14,7 +14,7 @@ type ClientSession struct {
 	recv []byte
 }
 
-func handleConnection(conn net.Conn) {
+func HandleConnection(conn net.Conn) {
 	defer conn.Close()
 
 	addr := conn.RemoteAddr().String()
