@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"hwabi/hwabinet"
 	"log"
 	"net"
 )
@@ -22,7 +23,7 @@ func main() {
 			continue
 		}
 
-		c := NewClientConnection(conn)
-		go c.handleConnection()
+		c := hwabinet.NewClientConnection(conn)
+		go c.HandleConnection()
 	}
 }

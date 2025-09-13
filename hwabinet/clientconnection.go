@@ -1,4 +1,4 @@
-package main
+package hwabinet
 
 import (
 	"encoding/hex"
@@ -18,7 +18,7 @@ func NewClientConnection(c net.Conn) *ClientConnection {
 	return cc
 }
 
-func (cc *ClientConnection) handleConnection() {
+func (cc *ClientConnection) HandleConnection() {
 	defer cc.conn.Close()
 
 	addr := cc.conn.RemoteAddr().String()

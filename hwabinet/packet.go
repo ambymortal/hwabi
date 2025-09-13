@@ -1,4 +1,4 @@
-package main
+package hwabinet
 
 import (
 	"encoding/binary"
