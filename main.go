@@ -23,7 +23,6 @@ func main() {
 			continue
 		}
 
-		c := hwabinet.NewClientConnection(conn)
-		go c.HandleConnection()
+		go hwabinet.HandleConnection(conn)
 	}
 }
